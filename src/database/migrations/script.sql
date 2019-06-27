@@ -17,7 +17,7 @@
 -- DROP SCHEMA IF EXISTS "bodyfit-bd" CASCADE;
 CREATE SCHEMA "bodyfit-bd";
 -- ddl-end --
--- ALTER SCHEMA "bodyfit-bd" OWNER TO postgres;
+ALTER SCHEMA "bodyfit-bd" OWNER TO postgres;
 -- ddl-end --
 
 SET search_path TO pg_catalog,public,"bodyfit-bd";
@@ -30,7 +30,7 @@ CREATE TABLE "bodyfit-bd".bodybuilder(
 	name varchar(100) NOT NULL,
 	cpf varchar(45) NOT NULL,
 	birth_date date NOT NULL,
-	status boolean NOT NULL,
+	status boolean NOT NULL DEFAULT false,
 	last_paid date,
 	phone varchar(45) NOT NULL,
 	code varchar(45) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE "bodyfit-bd".bodybuilder(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".bodybuilder OWNER TO postgres; --
+ALTER TABLE "bodyfit-bd".bodybuilder OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".instructor | type: TABLE --
@@ -54,7 +54,7 @@ CREATE TABLE "bodyfit-bd".instructor(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".instructor OWNER TO postgres;
+ALTER TABLE "bodyfit-bd".instructor OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".evaluation | type: TABLE --
@@ -67,7 +67,7 @@ CREATE TABLE "bodyfit-bd".evaluation(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".evaluation OWNER TO postgres;
+ALTER TABLE "bodyfit-bd".evaluation OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".workout | type: TABLE --
@@ -81,7 +81,7 @@ CREATE TABLE "bodyfit-bd".workout(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".workout OWNER TO postgres;
+ALTER TABLE "bodyfit-bd".workout OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".exercise | type: TABLE --
@@ -93,7 +93,7 @@ CREATE TABLE "bodyfit-bd".exercise(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".exercise OWNER TO postgres;
+ALTER TABLE "bodyfit-bd".exercise OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".monthly_charge | type: TABLE --
@@ -102,12 +102,13 @@ CREATE TABLE "bodyfit-bd".monthly_charge(
 	id serial NOT NULL,
 	due_date date NOT NULL,
 	value decimal(5,2) NOT NULL,
+	paid boolean NOT NULL DEFAULT false,
 	id_bodybuilder integer NOT NULL,
 	CONSTRAINT monthly_charge_pk PRIMARY KEY (id)
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".monthly_charge OWNER TO postgres;
+ALTER TABLE "bodyfit-bd".monthly_charge OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".intensity | type: TABLE --
@@ -119,7 +120,7 @@ CREATE TABLE "bodyfit-bd".intensity(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".intensity OWNER TO postgres;
+ALTER TABLE "bodyfit-bd".intensity OWNER TO postgres;
 -- ddl-end --
 
 -- object: bodybuilder_fk | type: CONSTRAINT --

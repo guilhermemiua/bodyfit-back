@@ -8,7 +8,6 @@ require("dotenv").config();
 
 const app = express();
 
-/*
 fs.readFile("./src/database/migrations/script.sql", (err, sql) => {
   if (err) {
     console.log(err);
@@ -16,7 +15,6 @@ fs.readFile("./src/database/migrations/script.sql", (err, sql) => {
   }
   db.query(sql.toString());
 });
-*/
 
 // Middlewares
 app.use(bodyParser.json());
