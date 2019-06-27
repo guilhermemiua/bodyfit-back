@@ -1,8 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const addresService = require('../services/address');
+const bodybuilderRegisterService = require("../services/bodybuilder/register/register");
 
-router.post('/address/add', (req, res) => addresService.create(req, res));
+router.post("/bodybuilder/register", (req, res) =>
+  bodybuilderRegisterService.register(req, res)
+);
+router.post("/bodybuilder/login", (req, res) =>
+  bodybuilderRegisterService.login(req, res)
+);
 
 module.exports = router;

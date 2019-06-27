@@ -6,7 +6,7 @@
   "author": "Guilherme Eiti Akita Miua <guilhermemiua@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "nodemon src/app.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -17,6 +17,10 @@
     "pg": "^7.11.0",
     "pg-hstore": "^2.3.3",
     "ps": "^1.0.0",
-    "sequelize": "^5.8.12"
+    "sequelize": "^5.8.12",
+    "shortid": "^2.2.14"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
   }
 }
