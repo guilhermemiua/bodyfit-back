@@ -52,6 +52,10 @@ router.get("/charge/getAll", (req, res) => {
   chargesService.getAllCharges(req, res);
 });
 
+router.post("/charge/pay", (req, res) => {
+  chargesService.payCharge(req, res);
+});
+
 router.get("/evaluation/getAll", (req, res) => {
   evaluationsService.getAllEvaluations(req, res);
 });
