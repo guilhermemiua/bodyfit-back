@@ -36,7 +36,7 @@ const payCharge = async (req, res) => {
   const { DataTypes } = helpers;
 
   try {
-    await chargeModel(db, DataTypes).update(
+    const charge = await chargeModel(db, DataTypes).update(
       {
         paid: true,
       },
@@ -46,6 +46,15 @@ const payCharge = async (req, res) => {
         },
       }
     );
+
+    const due_date = moment(charge.dataValues.due_date).add(1, "M");
+
+    await chargeModel(db, DataTypes).create({
+      due_date,
+      id_bodybuilder: charge.dataValues.id_bodybuilder,
+      value: charge.dataValues.value,
+      paid: false,
+    });
 
     return res.status(200).send({
       success: true,
