@@ -4,6 +4,7 @@ const DataTypes = {
   DOUBLE: Number,
   DATEONLY: Date,
   BOOLEAN: Boolean,
+  DATE: Date,
 };
 
 module.exports = {

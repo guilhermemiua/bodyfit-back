@@ -25,6 +25,7 @@ module.exports = function(sequelize, DataTypes) {
       status: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
       },
       last_paid: {
         type: DataTypes.DATEONLY,

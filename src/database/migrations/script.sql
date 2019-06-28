@@ -30,7 +30,7 @@ CREATE TABLE "bodyfit-bd".bodybuilder(
 	name varchar(100) NOT NULL,
 	cpf varchar(45) NOT NULL,
 	birth_date date NOT NULL,
-	status boolean NOT NULL,
+	status boolean NOT NULL DEFAULT false,
 	last_paid date,
 	phone varchar(45) NOT NULL,
 	code varchar(45) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE "bodyfit-bd".bodybuilder(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".bodybuilder OWNER TO postgres; --
+-- ALTER TABLE "bodyfit-bd".bodybuilder OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".instructor | type: TABLE --
@@ -61,7 +61,7 @@ CREATE TABLE "bodyfit-bd".instructor(
 -- DROP TABLE IF EXISTS "bodyfit-bd".evaluation CASCADE;
 CREATE TABLE "bodyfit-bd".evaluation(
 	id serial NOT NULL,
-	date_time date NOT NULL,
+	date_time timestamp NOT NULL,
 	id_bodybuilder integer NOT NULL,
 	CONSTRAINT evaluation_pk PRIMARY KEY (id,date_time)
 
@@ -102,6 +102,7 @@ CREATE TABLE "bodyfit-bd".monthly_charge(
 	id serial NOT NULL,
 	due_date date NOT NULL,
 	value decimal(5,2) NOT NULL,
+	paid boolean NOT NULL DEFAULT false,
 	id_bodybuilder integer NOT NULL,
 	CONSTRAINT monthly_charge_pk PRIMARY KEY (id)
 

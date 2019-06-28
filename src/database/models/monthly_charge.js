@@ -26,6 +26,11 @@ module.exports = function(sequelize, DataTypes) {
           key: "id",
         },
       },
+      paid: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     {
       tableName: "monthly_charge",
