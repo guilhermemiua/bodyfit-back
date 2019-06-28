@@ -30,6 +30,34 @@ const getAllCharges = async (req, res) => {
   }
 };
 
+const payCharge = async (req, res) => {
+  const { DataTypes } = helpers;
+
+  try {
+    await chargeModel(db, DataTypes).update(
+      {
+        paid: true,
+      },
+      {
+        where: {
+          id: req.body.id_charge,
+        },
+      }
+    );
+
+    return res.status(200).send({
+      success: true,
+      errorMessage: "",
+    });
+  } catch (err) {
+    return res.status(404).send({
+      success: false,
+      errorMessage: err,
+    });
+  }
+};
+
 module.exports = {
   getAllCharges,
+  payCharge,
 };
