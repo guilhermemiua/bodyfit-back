@@ -26,8 +26,10 @@ const searchInstructors = async (req, res) => {
 
   try {
     const instructors = await instructorModel(db, DataTypes).findAll({
-      name: {
-        [op.startsWith]: req.body.name,
+      where: {
+        name: {
+          [op.startsWith]: req.body.name,
+        },
       },
     });
 
@@ -49,14 +51,23 @@ const getInstructor = async (req, res) => {
 
   try {
     const instructor = await instructorModel(db, DataTypes).findOne({
-      id: req.body.id_instructor,
+      where: {
+        id: req.body.id_instructor,
+      },
     });
 
-    return res.status(200).send({
-      success: true,
-      errorMessage: "",
-      instructor,
-    });
+    if (instructor) {
+      return res.status(200).send({
+        success: true,
+        errorMessage: "",
+        instructor,
+      });
+    } else {
+      return res.status(404).send({
+        success: false,
+        errorMessage: "Instructor does not exist",
+      });
+    }
   } catch (err) {
     return res.status(404).send({
       success: false,

@@ -8,7 +8,9 @@ const getAllCharges = async (req, res) => {
 
   try {
     const charges = await chargeModel(db, DataTypes).findAll({
-      paid: false,
+      where: {
+        paid: false,
+      },
     });
 
     const now = moment();
