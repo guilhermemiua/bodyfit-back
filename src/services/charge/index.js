@@ -11,10 +11,10 @@ const getAllCharges = async (req, res) => {
       paid: false,
     });
 
-    const month = moment().month();
+    const now = moment();
 
     charges.forEach(charge => {
-      console.log(charge);
+      return (charge.isDelayed = now >= charge.due_date ? true : false);
     });
 
     return res.status(200).send({
