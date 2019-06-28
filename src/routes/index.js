@@ -68,6 +68,10 @@ router.get("/exercise/getAll", (req, res) => {
   exercisesService.getAllExercises(req, res);
 });
 
+router.get("/exercise/populate", (req, res) => {
+  exercisesService.populateExercise(req, res);
+});
+
 router.post("/intensity/getAll", (req, res) => {
   intensityService.getAllIntensities(req, res);
 });

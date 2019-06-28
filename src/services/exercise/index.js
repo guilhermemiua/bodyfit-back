@@ -21,6 +21,35 @@ const getAllExercises = async (req, res) => {
   }
 };
 
+const populateExercise = async (req, res) => {
+  const { DataTypes } = helpers;
+
+  try {
+    await exerciseModel(db, DataTypes).create({
+      name: "Supino reto",
+    });
+
+    await exerciseModel(db, DataTypes).create({
+      name: "Agachamento",
+    });
+
+    await exerciseModel(db, DataTypes).create({
+      name: "Flexão",
+    });
+
+    return res.status(200).send({
+      success: true,
+      errorMessage: "",
+    });
+  } catch (err) {
+    return res.status(404).send({
+      success: false,
+      errorMessage: err,
+    });
+  }
+};
+
 module.exports = {
   getAllExercises,
+  populateExercise,
 };
