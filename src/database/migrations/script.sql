@@ -17,7 +17,7 @@
 -- DROP SCHEMA IF EXISTS "bodyfit-bd" CASCADE;
 CREATE SCHEMA "bodyfit-bd";
 -- ddl-end --
--- ALTER SCHEMA "bodyfit-bd" OWNER TO postgres; --
+-- ALTER SCHEMA "bodyfit-bd" OWNER TO postgres;
 -- ddl-end --
 
 SET search_path TO pg_catalog,public,"bodyfit-bd";
@@ -26,11 +26,11 @@ SET search_path TO pg_catalog,public,"bodyfit-bd";
 -- object: "bodyfit-bd".bodybuilder | type: TABLE --
 -- DROP TABLE IF EXISTS "bodyfit-bd".bodybuilder CASCADE;
 CREATE TABLE "bodyfit-bd".bodybuilder(
-	id integer NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	id serial NOT NULL,
 	name varchar(100) NOT NULL,
-	cpf integer NOT NULL,
+	cpf varchar(45) NOT NULL,
 	birth_date date NOT NULL,
-	status boolean NOT NULL,
+	status boolean NOT NULL DEFAULT false,
 	last_paid date,
 	phone varchar(45) NOT NULL,
 	code varchar(45) NOT NULL,
@@ -38,15 +38,15 @@ CREATE TABLE "bodyfit-bd".bodybuilder(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".bodybuilder OWNER TO postgres; --
+-- ALTER TABLE "bodyfit-bd".bodybuilder OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".instructor | type: TABLE --
 -- DROP TABLE IF EXISTS "bodyfit-bd".instructor CASCADE;
 CREATE TABLE "bodyfit-bd".instructor(
-	id integer NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	id serial NOT NULL,
 	name varchar(100) NOT NULL,
-	cpf integer NOT NULL,
+	cpf varchar(45) NOT NULL,
 	birth_date date NOT NULL,
 	cref varchar(45) NOT NULL,
 	code varchar(45) NOT NULL,
@@ -54,26 +54,26 @@ CREATE TABLE "bodyfit-bd".instructor(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".instructor OWNER TO postgres; --
+-- ALTER TABLE "bodyfit-bd".instructor OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".evaluation | type: TABLE --
 -- DROP TABLE IF EXISTS "bodyfit-bd".evaluation CASCADE;
 CREATE TABLE "bodyfit-bd".evaluation(
-	id integer NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	id serial NOT NULL,
 	date_time timestamp NOT NULL,
 	id_bodybuilder integer NOT NULL,
 	CONSTRAINT evaluation_pk PRIMARY KEY (id,date_time)
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".evaluation OWNER TO postgres; --
+-- ALTER TABLE "bodyfit-bd".evaluation OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".workout | type: TABLE --
 -- DROP TABLE IF EXISTS "bodyfit-bd".workout CASCADE;
 CREATE TABLE "bodyfit-bd".workout(
-	id integer NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	id serial NOT NULL,
 	id_bodybuilder integer NOT NULL,
 	id_instructor integer NOT NULL,
 	id_intensity integer NOT NULL,
@@ -81,45 +81,46 @@ CREATE TABLE "bodyfit-bd".workout(
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".workout OWNER TO postgres; --
+-- ALTER TABLE "bodyfit-bd".workout OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".exercise | type: TABLE --
 -- DROP TABLE IF EXISTS "bodyfit-bd".exercise CASCADE;
 CREATE TABLE "bodyfit-bd".exercise(
-	id integer NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	id serial NOT NULL,
 	name varchar(45) NOT NULL,
 	CONSTRAINT exercise_pk PRIMARY KEY (id)
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".exercise OWNER TO postgres; --
+-- ALTER TABLE "bodyfit-bd".exercise OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".monthly_charge | type: TABLE --
 -- DROP TABLE IF EXISTS "bodyfit-bd".monthly_charge CASCADE;
 CREATE TABLE "bodyfit-bd".monthly_charge(
-	id integer NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	id serial NOT NULL,
 	due_date date NOT NULL,
 	value decimal(5,2) NOT NULL,
+	paid boolean NOT NULL DEFAULT false,
 	id_bodybuilder integer NOT NULL,
 	CONSTRAINT monthly_charge_pk PRIMARY KEY (id)
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".monthly_charge OWNER TO postgres; --
+-- ALTER TABLE "bodyfit-bd".monthly_charge OWNER TO postgres;
 -- ddl-end --
 
 -- object: "bodyfit-bd".intensity | type: TABLE --
 -- DROP TABLE IF EXISTS "bodyfit-bd".intensity CASCADE;
 CREATE TABLE "bodyfit-bd".intensity(
-	id integer NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	id serial NOT NULL,
 	name varchar(45),
 	CONSTRAINT intensity_pk PRIMARY KEY (id)
 
 );
 -- ddl-end --
--- ALTER TABLE "bodyfit-bd".intensity OWNER TO postgres; --
+-- ALTER TABLE "bodyfit-bd".intensity OWNER TO postgres;
 -- ddl-end --
 
 -- object: bodybuilder_fk | type: CONSTRAINT --
@@ -170,7 +171,7 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 -- object: "bodyfit-bd".card | type: TABLE --
 -- DROP TABLE IF EXISTS "bodyfit-bd".card CASCADE;
 CREATE TABLE "bodyfit-bd".card(
-	id integer NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	id serial NOT NULL,
 	series integer NOT NULL,
 	repetition integer NOT NULL,
 	weight decimal(5,2) NOT NULL,
