@@ -6,7 +6,8 @@
   "author": "Guilherme Eiti Akita Miua <guilhermemiua@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/app.js"
+    "start": "node src/app.js",
+    "start:dev": "nodemon src/app.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
