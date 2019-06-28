@@ -44,7 +44,29 @@ const searchInstructors = async (req, res) => {
   }
 };
 
+const getInstructor = async (req, res) => {
+  const { DataTypes } = helpers;
+
+  try {
+    const instructor = await instructorModel(db, DataTypes).findOne({
+      id: req.body.id_instructor,
+    });
+
+    return res.status(200).send({
+      success: true,
+      errorMessage: "",
+      instructor,
+    });
+  } catch (err) {
+    return res.status(404).send({
+      success: false,
+      errorMessage: err,
+    });
+  }
+};
+
 module.exports = {
   getAllInstructors,
   searchInstructors,
+  getInstructor,
 };

@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
         autoIncrement: true,
       },
       date_time: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: false,
         primaryKey: true,
       },

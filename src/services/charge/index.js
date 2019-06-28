@@ -13,7 +13,9 @@ const getAllCharges = async (req, res) => {
 
     const month = moment().month();
 
-    charges.forEach(charge => {});
+    charges.forEach(charge => {
+      console.log(charge);
+    });
 
     return res.status(200).send({
       success: true,

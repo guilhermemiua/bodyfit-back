@@ -46,7 +46,29 @@ const searchBodybuilders = async (req, res) => {
   }
 };
 
+const getBodybuilder = async (req, res) => {
+  const { DataTypes } = helpers;
+
+  try {
+    const bodybuilder = await bodybuilderModel(db, DataTypes).findOne({
+      id: req.body.id_bodybuilder,
+    });
+
+    return res.status(200).send({
+      success: true,
+      errorMessage: "",
+      bodybuilder,
+    });
+  } catch (err) {
+    return res.status(404).send({
+      success: false,
+      errorMessage: err,
+    });
+  }
+};
+
 module.exports = {
   getAllBodybuilders,
   searchBodybuilders,
+  getBodybuilder,
 };
