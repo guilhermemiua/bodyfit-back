@@ -12,8 +12,10 @@ const getAllEvaluations = async (req, res) => {
     const now = moment();
 
     const evaluations = await evaluationModel(db, DataTypes).findAll({
-      date_time: {
-        [op.gte]: now,
+      where: {
+        date_time: {
+          [op.gte]: now,
+        },
       },
     });
 
@@ -40,7 +42,9 @@ const createEvaluation = async (req, res) => {
       .format();
 
     const evaluation = await evaluationModel(db, DataTypes).findOne({
-      id_bodybuilder: req.body.id_bodybuilder,
+      where: {
+        id_bodybuilder: req.body.id_bodybuilder,
+      },
     });
 
     if (evaluation) {

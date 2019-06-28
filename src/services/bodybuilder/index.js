@@ -28,8 +28,10 @@ const searchBodybuilders = async (req, res) => {
 
   try {
     const bodybuilders = await bodybuilderModel(db, DataTypes).findAll({
-      name: {
-        [op.startsWith]: req.body.name,
+      where: {
+        name: {
+          [op.startsWith]: req.body.name,
+        },
       },
     });
 
@@ -51,14 +53,23 @@ const getBodybuilder = async (req, res) => {
 
   try {
     const bodybuilder = await bodybuilderModel(db, DataTypes).findOne({
-      id: req.body.id_bodybuilder,
+      where: {
+        id: req.body.id_bodybuilder,
+      },
     });
 
-    return res.status(200).send({
-      success: true,
-      errorMessage: "",
-      bodybuilder,
-    });
+    if (bodybuilder) {
+      return res.status(200).send({
+        success: true,
+        errorMessage: "",
+        bodybuilder,
+      });
+    } else {
+      return res.status(404).send({
+        success: false,
+        errorMessage: "Bodybuilder does not exist",
+      });
+    }
   } catch (err) {
     return res.status(404).send({
       success: false,

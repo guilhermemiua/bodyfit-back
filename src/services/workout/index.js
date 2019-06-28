@@ -9,7 +9,9 @@ const createWorkout = async (req, res) => {
   try {
     // Verify if already exists workout
     let workout = await workoutModel(db, DataTypes).findOne({
-      id_bodybuilder: req.body.id_bodybuilder,
+      where: {
+        id_bodybuilder: req.body.id_bodybuilder,
+      },
     });
 
     if (workout) {
@@ -60,7 +62,9 @@ const getWorkout = async (req, res) => {
   try {
     // Verify if already exists workout
     const workout = await workoutModel(db, DataTypes).findOne({
-      id_bodybuilder: req.body.id_bodybuilder,
+      where: {
+        id_bodybuilder: req.body.id_bodybuilder,
+      },
     });
 
     return res.status(200).send({
