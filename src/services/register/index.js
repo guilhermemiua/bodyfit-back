@@ -79,7 +79,7 @@ const instructorLogin = async (req, res) => {
 const bodybuilderRegister = async (req, res) => {
   try {
     const { DataTypes } = helpers;
-    const bodybuilder = await bodybuilderModel(db, DataTypes).findOne({
+    let bodybuilder = await bodybuilderModel(db, DataTypes).findOne({
       where: { cpf: req.body.cpf },
     });
 
@@ -117,7 +117,7 @@ const bodybuilderRegister = async (req, res) => {
     // Generate code access
     const code = shortid.generate();
 
-    const bodybuilder = await bodybuilderModel(db, DataTypes).create({
+    bodybuilder = await bodybuilderModel(db, DataTypes).create({
       code,
       name: req.body.name,
       cpf: req.body.cpf,
