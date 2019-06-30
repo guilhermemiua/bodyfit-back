@@ -48,6 +48,7 @@ const instructorRegister = async (req, res) => {
 
 const instructorLogin = async (req, res) => {
   try {
+    console.log(req);
     console.log(req.body);
 
     const { DataTypes } = helpers;
