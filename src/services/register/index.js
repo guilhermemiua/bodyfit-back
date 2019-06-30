@@ -7,20 +7,21 @@ const shortid = require("shortid");
 const moment = require("moment");
 
 const instructorRegister = async (req, res) => {
-  const { DataTypes } = helpers;
-  const instructor = await instructorModel(db, DataTypes).findOne({
-    where: { cpf: req.body.cpf },
-  });
-
-  // Verify if exists
-  if (instructor) {
-    return res.status(404).send({
-      success: false,
-      errorMessage: "Instructor already exists",
-    });
-  }
-
   try {
+    const { DataTypes } = helpers;
+
+    const instructor = await instructorModel(db, DataTypes).findOne({
+      where: { cpf: req.body.cpf },
+    });
+
+    // Verify if exists
+    if (instructor) {
+      return res.status(404).send({
+        success: false,
+        errorMessage: "Instructor already exists",
+      });
+    }
+
     // Generate code access
     const code = shortid.generate();
 
@@ -46,64 +47,73 @@ const instructorRegister = async (req, res) => {
 };
 
 const instructorLogin = async (req, res) => {
-  const { DataTypes } = helpers;
-  const instructor = await instructorModel(db, DataTypes).findOne({
-    where: { code: req.body.code },
-  });
+  try {
+    console.log(req.body);
 
-  // Verify if exists
-  if (!instructor) {
-    return res.status(404).send({
-      success: false,
-      errorMessage: "Instructor does not exists",
-    });
-  }
-
-  return res.status(200).send({
-    success: true,
-    errorMessage: "",
-    instructor: instructor,
-  });
-};
-
-const bodybuilderRegister = async (req, res) => {
-  const { DataTypes } = helpers;
-  const bodybuilder = await bodybuilderModel(db, DataTypes).findOne({
-    where: { cpf: req.body.cpf },
-  });
-
-  // Verify if exists
-  if (bodybuilder) {
-    const charge = await chargeModel(db, DataTypes).findOne({
-      where: {
-        id_bodybuilder: bodybuilder.id,
-      },
+    const { DataTypes } = helpers;
+    const instructor = await instructorModel(db, DataTypes).findOne({
+      where: { code: req.body.code },
     });
 
-    if (!charge) {
-      const due_date = moment().add(1, "M");
-
-      await chargeModel(db, DataTypes).create({
-        due_date,
-        id_bodybuilder: bodybuilder.id,
-        value: req.body.value,
-        paid: false,
-      });
-
-      return res.status(200).send({
-        success: true,
-        errorMessage: "",
-        code: bodybuilder.code,
+    // Verify if exists
+    if (!instructor) {
+      return res.status(404).send({
+        success: false,
+        errorMessage: "Instructor does not exists",
       });
     }
 
+    return res.status(200).send({
+      success: true,
+      errorMessage: "",
+      instructor: instructor,
+    });
+  } catch (err) {
     return res.status(404).send({
       success: false,
-      errorMessage: "Bodybuilder already exists",
+      errorMessage: err,
     });
   }
+};
 
+const bodybuilderRegister = async (req, res) => {
   try {
+    const { DataTypes } = helpers;
+    const bodybuilder = await bodybuilderModel(db, DataTypes).findOne({
+      where: { cpf: req.body.cpf },
+    });
+
+    // Verify if exists
+    if (bodybuilder) {
+      const charge = await chargeModel(db, DataTypes).findOne({
+        where: {
+          id_bodybuilder: bodybuilder.id,
+        },
+      });
+
+      if (!charge) {
+        const due_date = moment().add(1, "M");
+
+        await chargeModel(db, DataTypes).create({
+          due_date,
+          id_bodybuilder: bodybuilder.id,
+          value: req.body.value,
+          paid: false,
+        });
+
+        return res.status(200).send({
+          success: true,
+          errorMessage: "",
+          code: bodybuilder.code,
+        });
+      }
+
+      return res.status(404).send({
+        success: false,
+        errorMessage: "Bodybuilder already exists",
+      });
+    }
+
     // Generate code access
     const code = shortid.generate();
 
@@ -140,24 +150,31 @@ const bodybuilderRegister = async (req, res) => {
 };
 
 const bodybuilderLogin = async (req, res) => {
-  const { DataTypes } = helpers;
-  const bodybuilder = await bodybuilderModel(db, DataTypes).findOne({
-    where: { code: req.body.code },
-  });
+  try {
+    const { DataTypes } = helpers;
+    const bodybuilder = await bodybuilderModel(db, DataTypes).findOne({
+      where: { code: req.body.code },
+    });
 
-  // Verify if exists
-  if (!bodybuilder) {
+    // Verify if exists
+    if (!bodybuilder) {
+      return res.status(404).send({
+        success: false,
+        errorMessage: "Bodybuilder does not exists",
+      });
+    }
+
+    return res.status(200).send({
+      success: true,
+      errorMessage: "",
+      bodybuilder: bodybuilder,
+    });
+  } catch (err) {
     return res.status(404).send({
       success: false,
-      errorMessage: "Bodybuilder does not exists",
+      errorMessage: err,
     });
   }
-
-  return res.status(200).send({
-    success: true,
-    errorMessage: "",
-    bodybuilder: bodybuilder,
-  });
 };
 
 module.exports = {
