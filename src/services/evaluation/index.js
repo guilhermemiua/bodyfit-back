@@ -9,15 +9,15 @@ const getAllEvaluations = async (req, res) => {
   const { DataTypes } = helpers;
 
   try {
-    const now = moment();
-
-    const evaluations = await evaluationModel(db, DataTypes).findAll({
-      where: {
-        date_time: {
-          [op.gte]: new Date(now),
-        },
-      },
-    });
+    const now = new Date(moment());
+    console.log(now);
+    const evaluations = await db.query(
+      `SELECT evaluation.id, evaluation.date_time, evaluation.id_bodybuilder, bodybuilder.name FROM "bodyfit-bd"."evaluation", "bodyfit-bd"."bodybuilder" WHERE "bodybuilder"."id" = "evaluation"."id_bodybuilder" AND "evaluation"."date_time" >= $1`,
+      {
+        bind: [now],
+        type: db.QueryTypes.SELECT,
+      }
+    );
 
     return res.status(200).send({
       success: true,
@@ -25,6 +25,7 @@ const getAllEvaluations = async (req, res) => {
       evaluations,
     });
   } catch (err) {
+    console.log(err);
     return res.status(404).send({
       success: false,
       errorMessage: err,
