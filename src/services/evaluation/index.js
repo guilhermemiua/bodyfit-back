@@ -14,7 +14,7 @@ const getAllEvaluations = async (req, res) => {
     const evaluations = await evaluationModel(db, DataTypes).findAll({
       where: {
         date_time: {
-          [op.gte]: now,
+          [op.gte]: new Date(now),
         },
       },
     });
