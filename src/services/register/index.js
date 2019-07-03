@@ -10,7 +10,7 @@ const instructorRegister = async (req, res) => {
   try {
     const { DataTypes } = helpers;
 
-    const instructor = await instructorModel(db, DataTypes).findOne({
+    let instructor = await instructorModel(db, DataTypes).findOne({
       where: { cpf: req.body.cpf },
     });
 
@@ -25,7 +25,7 @@ const instructorRegister = async (req, res) => {
     // Generate code access
     const code = shortid.generate();
 
-    await instructorModel(db, DataTypes).create({
+    instructor = await instructorModel(db, DataTypes).create({
       code,
       name: req.body.name,
       cpf: req.body.cpf,
@@ -36,9 +36,10 @@ const instructorRegister = async (req, res) => {
     return res.status(200).send({
       success: true,
       errorMessage: "",
-      code,
+      instructor: instructor.dataValues,
     });
   } catch (err) {
+    console.log(err);
     return res.status(404).send({
       success: false,
       errorMessage: err,
@@ -102,7 +103,7 @@ const bodybuilderRegister = async (req, res) => {
         return res.status(200).send({
           success: true,
           errorMessage: "",
-          code: bodybuilder.code,
+          bodybuilder,
         });
       }
 
@@ -137,9 +138,10 @@ const bodybuilderRegister = async (req, res) => {
     return res.status(200).send({
       success: true,
       errorMessage: "",
-      code,
+      bodybuilder: bodybuilder.dataValues,
     });
   } catch (err) {
+    console.log(err);
     return res.status(404).send({
       success: false,
       errorMessage: err,
