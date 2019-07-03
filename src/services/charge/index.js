@@ -7,22 +7,25 @@ const getAllCharges = async (req, res) => {
   const { DataTypes } = helpers;
 
   try {
+    /*
     const charges = await chargeModel(db, DataTypes).findAll({
       where: {
         paid: false,
       },
     });
+    */
 
-    const now = moment();
-
-    charges.forEach(charge => {
-      return (charge.isDelayed = now >= charge.due_date ? true : false);
-    });
+    const charges = await db.query(
+      `SELECT monthly_charge.id, monthly_charge.due_date, monthly_charge.value, monthly_charge.id_bodybuilder, bodybuilder.name FROM "bodyfit-bd"."monthly_charge", "bodyfit-bd"."bodybuilder" WHERE "bodybuilder"."id" = "monthly_charge"."id_bodybuilder" AND "monthly_charge"."paid" = $1`,
+      {
+        bind: [false],
+      }
+    );
 
     return res.status(200).send({
       success: true,
       errorMessage: "",
-      charges,
+      charges: charges[0],
     });
   } catch (err) {
     return res.status(404).send({
