@@ -1,4 +1,5 @@
 const workoutModel = require("../../database/models/workout");
+const bodybuilderModel = require("../../database/models/bodybuilder");
 const cardModel = require("../../database/models/card");
 const helpers = require("../../helpers");
 const db = require("../../configs");
@@ -7,6 +8,19 @@ const createWorkout = async (req, res) => {
   const { DataTypes } = helpers;
 
   try {
+    const bodybuilder = await bodybuilderModel(db, DataTypes).findOne({
+      where: {
+        id: req.body.id_bodybuilder,
+      },
+    });
+
+    if (!bodybuilder) {
+      return res.status(404).send({
+        success: false,
+        errorMessage: "Bodybuilder not found",
+      });
+    }
+
     // Verify if already exists workout
     let workout = await workoutModel(db, DataTypes).findOne({
       where: {
@@ -15,7 +29,7 @@ const createWorkout = async (req, res) => {
     });
 
     if (workout) {
-      workout = await workoutModel(db, DataTypes).update(
+      await workoutModel(db, DataTypes).update(
         {
           id_intensity: req.body.id_intensity,
           id_instructor: req.body.id_instructor,
@@ -27,14 +41,20 @@ const createWorkout = async (req, res) => {
         }
       );
     } else {
-      workout = await workoutModel(db, DataTypes).create({
+      await workoutModel(db, DataTypes).create({
         id_intensity: req.body.id_intensity,
         id_instructor: req.body.id_instructor,
         id_bodybuilder: req.body.id_bodybuilder,
       });
     }
 
-    req.body.cards.map(async card => {
+    workout = await workoutModel(db, DataTypes).findOne({
+      where: {
+        id_bodybuilder: req.body.id_bodybuilder,
+      },
+    });
+
+    await req.body.cards.map(async card => {
       await cardModel(db, DataTypes).create({
         series: card.series,
         repetition: card.repetition,
@@ -49,6 +69,7 @@ const createWorkout = async (req, res) => {
       errorMessage: "",
     });
   } catch (err) {
+    console.log(err);
     return res.status(404).send({
       success: false,
       errorMessage: err,
