@@ -84,7 +84,7 @@ router.post("/workout/create", (req, res) => {
   workoutService.createWorkout(req, res);
 });
 
-router.get("/workout/get", (req, res) => {
+router.post("/workout/get", (req, res) => {
   workoutService.getWorkout(req, res);
 });
 
