@@ -6,11 +6,8 @@ const Sequelize = require("sequelize");
 const op = Sequelize.Op;
 
 const getAllEvaluations = async (req, res) => {
-  const { DataTypes } = helpers;
-
   try {
     const now = new Date(moment());
-    console.log(now);
     const evaluations = await db.query(
       `SELECT evaluation.id, evaluation.date_time, evaluation.id_bodybuilder, bodybuilder.name FROM "bodyfit-bd"."evaluation", "bodyfit-bd"."bodybuilder" WHERE "bodybuilder"."id" = "evaluation"."id_bodybuilder" AND "evaluation"."date_time" >= $1`,
       {
@@ -25,7 +22,6 @@ const getAllEvaluations = async (req, res) => {
       evaluations,
     });
   } catch (err) {
-    console.log(err);
     return res.status(404).send({
       success: false,
       errorMessage: err,
