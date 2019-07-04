@@ -42,7 +42,7 @@ const createWorkout = async (req, res) => {
         }
       );
 
-      workout.dataValues.map(async w => {
+      await workout.dataValues.map(async w => {
         await db.query(
           'DELETE * FROM "bodyfit-bd"."exercise" WHERE "exercise".id = $1',
           {
