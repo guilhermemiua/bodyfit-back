@@ -43,7 +43,7 @@ const createWorkout = async (req, res) => {
       );
 
       await db.query(
-        'DELETE * FROM "bodyfit-bd"."exercise", "bodyfit-bd"."card" WHERE "card".id_bodybuilder = $1 AND "exercise".id = "card".id',
+        'DELETE * FROM "bodyfit-bd"."exercise", "bodyfit-bd"."card" WHERE "card".id_bodybuilder = $1 AND "exercise".id = "card".id_exercise',
         {
           bind: [req.body.id_bodybuilder],
         }
