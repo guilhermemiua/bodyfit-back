@@ -90,7 +90,7 @@ const getWorkout = async (req, res) => {
   try {
     // Verify if already exists workout
     const workout = await db.query(
-      'SELECT * FROM "bodyfit-bd"."workout", "bodyfit-bd"."card", "bodyfit-bd"."exercise" WHERE "workout"."id" = $1',
+      'SELECT * FROM "bodyfit-bd"."workout", "bodyfit-bd"."card", "bodyfit-bd"."exercise" WHERE "workout"."id_bodybuilder" = $1',
       {
         bind: [req.body.id_bodybuilder],
       }
