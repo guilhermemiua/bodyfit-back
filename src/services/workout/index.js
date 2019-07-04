@@ -78,7 +78,7 @@ const createWorkout = async (req, res) => {
 
     await req.body.cards.map(async card => {
       exercise = await exerciseModel(db, DataTypes).create({
-        name: req.body.name,
+        name: card.name,
       });
 
       await cardModel(db, DataTypes).create({
