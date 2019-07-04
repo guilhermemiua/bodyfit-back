@@ -1,6 +1,7 @@
 const workoutModel = require("../../database/models/workout");
 const bodybuilderModel = require("../../database/models/bodybuilder");
 const cardModel = require("../../database/models/card");
+const exerciseModel = require("../../database/models/exercise");
 const helpers = require("../../helpers");
 const db = require("../../configs");
 
@@ -54,12 +55,18 @@ const createWorkout = async (req, res) => {
       },
     });
 
+    let exercise = "";
+
     await req.body.cards.map(async card => {
+      exercise = await exerciseModel(db, DataTypes).create({
+        name: req.body.name,
+      });
+
       await cardModel(db, DataTypes).create({
         series: card.series,
         repetition: card.repetition,
         weight: card.weight,
-        id_exercise: card.id_exercise,
+        id_exercise: exercise.dataValues.id,
         id_workout: workout.dataValues.id,
       });
     });
@@ -82,11 +89,12 @@ const getWorkout = async (req, res) => {
 
   try {
     // Verify if already exists workout
-    const workout = await workoutModel(db, DataTypes).findOne({
-      where: {
-        id_bodybuilder: req.body.id_bodybuilder,
-      },
-    });
+    const workout = await db.query(
+      'SELECT * FROM "bodyfit-bd"."workout", "bodyfit-bd"."card", "bodyfit-bd"."exercise" WHERE "workout"."id" = $1',
+      {
+        bind: [req.body.id_bodybuilder],
+      }
+    );
 
     return res.status(200).send({
       success: true,
