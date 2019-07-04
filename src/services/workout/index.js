@@ -42,11 +42,14 @@ const createWorkout = async (req, res) => {
         }
       );
 
-      workout.dataValues.map(w => {
-        await db.query('DELETE * FROM "bodyfit-bd"."exercise" WHERE "exercise".id = $1', {
-          bind: [w.id],
-        })
-      })
+      workout.dataValues.map(async w => {
+        await db.query(
+          'DELETE * FROM "bodyfit-bd"."exercise" WHERE "exercise".id = $1',
+          {
+            bind: [w.id],
+          }
+        );
+      });
 
       await db.query(
         'DELETE * FROM "bodyfit-bd"."card" WHERE "card".id_bodybuilder = $1',
