@@ -1,5 +1,6 @@
 const workoutModel = require("../../database/models/workout");
 const bodybuilderModel = require("../../database/models/bodybuilder");
+const intensityModel = require("../../database/models/intensity");
 const cardModel = require("../../database/models/card");
 const exerciseModel = require("../../database/models/exercise");
 const helpers = require("../../helpers");
@@ -120,9 +121,16 @@ const getWorkout = async (req, res) => {
       },
     });
 
+    const intensity = await intensityModel(db, DataTypes).findOne({
+      where: {
+        id: workout.id_intensity,
+      },
+    });
+
     return res.status(200).send({
       success: true,
       errorMessage: "",
+      intensity: intensity.name,
       workout: cards,
     });
   } catch (err) {
