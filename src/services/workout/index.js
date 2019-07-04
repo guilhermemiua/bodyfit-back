@@ -55,11 +55,13 @@ const createWorkout = async (req, res) => {
       },
     });
 
-    const exercise = await exerciseModel(db, DataTypes).create({
-      name: req.body.name,
-    });
+    let exercise = "";
 
     await req.body.cards.map(async card => {
+      exercise = await exerciseModel(db, DataTypes).create({
+        name: req.body.name,
+      });
+
       await cardModel(db, DataTypes).create({
         series: card.series,
         repetition: card.repetition,
@@ -87,14 +89,11 @@ const getWorkout = async (req, res) => {
 
   try {
     // Verify if already exists workout
-    const workout = await workoutModel(db, DataTypes).findOne({
-      where: {
-        id_bodybuilder: req.body.id_bodybuilder,
-      },
-    });
-
     const workout = await db.query(
-      'SELECT * FROM "bodyfit-bd"."workout", "bodyfit-bd"."card" WHERE "workout"."id" = $1'
+      'SELECT * FROM "bodyfit-bd"."workout", "bodyfit-bd"."card", "bodyfit-bd"."exercise" WHERE "workout"."id" = $1',
+      {
+        bind: [req.body.id_bodybuilder],
+      }
     );
 
     return res.status(200).send({
