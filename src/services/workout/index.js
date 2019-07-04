@@ -41,6 +41,13 @@ const createWorkout = async (req, res) => {
           },
         }
       );
+
+      await db.query(
+        'DELETE * FROM "bodyfit-bd"."exercise", "bodyfit-bd"."card" WHERE "card".id_bodybuilder = $1 AND "exercise".id = "card".id',
+        {
+          bind: [req.body.id_bodybuilder],
+        }
+      );
     } else {
       await workoutModel(db, DataTypes).create({
         id_intensity: req.body.id_intensity,
