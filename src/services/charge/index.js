@@ -16,7 +16,7 @@ const getAllCharges = async (req, res) => {
     */
 
     const charges = await db.query(
-      `SELECT monthly_charge.id, monthly_charge.due_date, monthly_charge.value, monthly_charge.id_bodybuilder, bodybuilder.name FROM "bodyfit-bd"."monthly_charge", "bodyfit-bd"."bodybuilder" WHERE "bodybuilder"."id" = "monthly_charge"."id_bodybuilder" AND "monthly_charge"."paid" = $1`,
+      `SELECT monthly_charge.id, monthly_charge.due_date, monthly_charge.value, monthly_charge.id_bodybuilder, monthly_charge.paid, bodybuilder.name FROM "bodyfit-bd"."monthly_charge", "bodyfit-bd"."bodybuilder" WHERE "bodybuilder"."id" = "monthly_charge"."id_bodybuilder" AND "monthly_charge"."paid" = $1`,
       {
         bind: [false],
       }
