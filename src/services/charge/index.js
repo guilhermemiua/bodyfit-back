@@ -53,7 +53,7 @@ const payCharge = async (req, res) => {
       }
     );
 
-    const due_date = moment(charge.due_date).add(1, "M");
+    const due_date = moment(charge.dataValues.due_date).add(1, "M");
 
     await chargeModel(db, DataTypes).create({
       due_date: due_date,
@@ -67,6 +67,7 @@ const payCharge = async (req, res) => {
       errorMessage: "",
     });
   } catch (err) {
+    console.log(err);
     return res.status(404).send({
       success: false,
       errorMessage: err,
