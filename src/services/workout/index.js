@@ -83,7 +83,6 @@ const createWorkout = async (req, res) => {
       errorMessage: "",
     });
   } catch (err) {
-    console.log(err);
     return res.status(404).send({
       success: false,
       errorMessage: err,
@@ -106,7 +105,7 @@ const getWorkout = async (req, res) => {
     return res.status(200).send({
       success: true,
       errorMessage: "",
-      workout,
+      workout: workout[0],
     });
   } catch (err) {
     return res.status(404).send({
