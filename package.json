@@ -19,7 +19,7 @@
     "pg": "^7.11.0",
     "pg-hstore": "^2.3.3",
     "ps": "^1.0.0",
-    "sequelize": "^5.8.12",
+    "sequelize": "^5.15.1",
     "shortid": "^2.2.14"
   },
   "devDependencies": {
